@@ -15,21 +15,26 @@ export function WaitlistWrapper({ children }: PropsWithChildren) {
         <div>
           <div className="flex justify-center items-center gap-4 mx-auto">
 
-            <Image
-              src="/foss.png"
-              alt="FOSS Logo"
-              width={80}
-              height={80}
-              priority
-              className="rounded-2xl "
-            />
+            <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-lg dark:bg-black">
+              <Image
+                src="/sceptix-logo.png"
+                alt="sceptix logo"
+                width={48}
+                height={48}
+                priority
+                className="h-12 w-12 object-contain dark:invert"
+              />
+              <span className="text-xl font-extrabold tracking-tight text-black dark:text-white">
+                sceptix<span>.in</span>
+              </span>
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-10">{children}</div>
       </div>
       <footer className="flex justify-between items-center w-full self-stretch px-8 py-3 text-sm bg-gray-12/[.07] overflow-hidden">
         <p className="text-xs text-slate-10">
-          © 2025 kuruk.am
+          © 2026 sceptix.in
         </p>
         <ThemeSwitcher />
       </footer>

@@ -5,11 +5,11 @@ import { FiGithub, FiStar } from "react-icons/fi"
 
 export function ContributeButton() {
   const [stars, setStars] = useState<number | null>(null)
-  const repoUrl = "https://github.com/FOSSUChennai/kuruk.am"
+  const repoUrl = "https://github.com/dionjoshualobo/SceptixUrl"
 
   useEffect(() => {
     // Fetch GitHub star count
-    fetch("https://api.github.com/repos/FOSSUChennai/kuruk.am")
+    fetch("https://api.github.com/repos/dionjoshualobo/SceptixUrl")
       .then((res) => res.json())
       .then((data) => {
         if (data.stargazers_count !== undefined) {

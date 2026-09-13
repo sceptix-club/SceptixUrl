@@ -71,11 +71,11 @@ export default function Home() {
           transition={{ duration: 0.5 }}
         >
           <div className="flex items-center justify-center gap-3 flex-wrap">
-            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-12 text-balance">kuruk.am</h1>
+            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-12 text-balance">sceptix.in</h1>
             <ContributeButton />
           </div>
           <p className="text-slate-10 text-pretty leading-relaxed">
-            Transform your long URLs into clean, shareable links.
+            Share smarter with the sceptix club's fast, focused URL shortener.
           </p>
         </motion.div>
         {/* <motion.div
@@ -120,7 +120,7 @@ export default function Home() {
         >
           <div className="inline-block backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 rounded-full px-4 py-2 shadow-lg">
             <p className="text-xs text-slate-11">
-              Originally built by <a href="https://ssn.lat" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-12 hover:text-[#06B051] transition-colors">SSN Lakshya</a>
+              Forked from <a href="https://kuruk.am" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-12 hover:text-black transition-colors">kuruk.am</a> · maintained by <a href="https://sceptix.in" target="_blank" rel="noopener noreferrer" className="font-semibold text-slate-12 hover:text-black transition-colors">sceptix.in</a>
             </p>
           </div>
         </motion.div>

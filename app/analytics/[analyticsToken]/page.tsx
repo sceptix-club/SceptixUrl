@@ -50,9 +50,9 @@ export default function AnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[#06B051]/30 border-t-[#06B051] rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-slate-400">Loading analytics...</p>
         </div>
       </div>
@@ -61,10 +61,10 @@ export default function AnalyticsPage() {
 
   if (error || !data) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="text-center">
           <p className="text-red-400 mb-4">{error || 'Analytics not found'}</p>
-          <Link href="/" className="text-[#06B051] hover:text-[#07C05D]">
+          <Link href="/" className="text-white hover:text-gray-300">
             Return home
           </Link>
         </div>
@@ -96,7 +96,7 @@ export default function AnalyticsPage() {
   })
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4 sm:p-6">
+    <div className="min-h-screen bg-black p-4 sm:p-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
@@ -106,7 +106,7 @@ export default function AnalyticsPage() {
         >
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-[#06B051] hover:text-[#07C05D] mb-6 transition-colors"
+            className="inline-flex items-center gap-2 text-white hover:text-gray-300 mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back
@@ -130,13 +130,13 @@ export default function AnalyticsPage() {
               href={`/${data.shortCode}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#06B051] hover:text-[#07C05D] font-medium truncate flex items-center gap-2"
+              className="text-white hover:text-gray-300 font-medium truncate flex items-center gap-2"
             >
-              kuruk.am/{data.shortCode}
+              sceptix.in/{data.shortCode}
               <ExternalLink className="w-3 h-3 flex-shrink-0" />
             </a>
             <button
-              onClick={() => copyToClipboard(`https://kuruk.am/${data.shortCode}`)}
+              onClick={() => copyToClipboard(`https://sceptix.in/${data.shortCode}`)}
               className="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-slate-200"
               title="Copy short URL"
             >
@@ -161,16 +161,16 @@ export default function AnalyticsPage() {
           transition={{ delay: 0.2 }}
           className="grid grid-cols-2 gap-4 mb-6"
         >
-          <div className="bg-gradient-to-br from-[#06B051]/10 to-[#06B051]/5 border border-[#06B051]/20 rounded-xl p-4 sm:p-6">
-            <p className="text-sm text-[#06B051]/70 font-medium mb-2">Total Clicks</p>
-            <p className="text-3xl sm:text-4xl font-bold text-[#06B051]">
+          <div className="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-4 sm:p-6">
+          <p className="text-sm text-white/70 font-medium mb-2">Total Clicks</p>
+          <p className="text-3xl sm:text-4xl font-bold text-white">
               {data.totalClicks}
             </p>
           </div>
 
-          <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-xl p-4 sm:p-6">
-            <p className="text-sm text-blue-400/70 font-medium mb-2">Last 30 Days</p>
-            <p className="text-3xl sm:text-4xl font-bold text-blue-500">
+          <div className="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-xl p-4 sm:p-6">
+            <p className="text-sm text-white/70 font-medium mb-2">Last 30 Days</p>
+            <p className="text-3xl sm:text-4xl font-bold text-white">
               {Object.values(data.clicksByDay).reduce((a, b) => a + b, 0)}
             </p>
           </div>
@@ -191,7 +191,7 @@ export default function AnalyticsPage() {
                 className="flex-1 flex flex-col items-center justify-end gap-1 group"
               >
                 <div
-                  className="w-full bg-gradient-to-t from-[#06B051] to-[#07C05D] rounded-t opacity-70 hover:opacity-100 transition-opacity"
+                  className="w-full bg-white rounded-t opacity-70 hover:opacity-100 transition-opacity"
                   style={{
                     height: `${(clicks / maxClicks) * 100}%`,
                     minHeight: clicks > 0 ? '4px' : '0'

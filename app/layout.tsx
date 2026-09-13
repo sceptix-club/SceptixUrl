@@ -1,15 +1,16 @@
 import type React from "react"
 import type { Viewport } from "next"
-import { Bricolage_Grotesque } from "next/font/google"
+import { Fira_Sans } from "next/font/google"
 import { Providers } from "@/context"
 import { MeshGradientComponent } from "@/components/mesh-gradient"
 import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 import Script from "next/script"
 
-const bricolageGrotesque = Bricolage_Grotesque({
-  variable: "--font-bricolage-grotesque",
+const firaSans = Fira_Sans({
+  variable: "--font-fira-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   preload: true,
 })
 
@@ -36,15 +37,10 @@ export default async function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body className={`${bricolageGrotesque.className} antialiased max-w-screen min-h-svh bg-slate-1 text-slate-12`}>
+      <body className={`${firaSans.className} antialiased max-w-screen min-h-svh bg-slate-1 text-slate-12`}>
         <Providers defaultTheme="system">
           <MeshGradientComponent
-            colors={[
-              "#06B051", // Green
-              "#FFFFFF", // White
-              "#000000", // Black
-              "#FFFFFF", // White
-            ]}
+            colors={["#000000", "#FFFFFF", "#000000", "#FFFFFF"]}
             speed={1.5}
             style={{
               position: "fixed",
@@ -68,6 +64,6 @@ export default async function RootLayout({
 }
 
 export const metadata = {
-  title: "kuruk.am - URL Shortener",
-  description: "Transform your long URLs into clean, shareable links",
+  title: "sceptix.in - URL Shortener",
+  description: "Clean, shareable links by the sceptix club",
 }

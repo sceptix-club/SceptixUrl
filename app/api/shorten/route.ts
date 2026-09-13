@@ -93,10 +93,10 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({
-      shortUrl: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://kuruk.am'}/${shortCode}`,
+      shortUrl: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://sceptix.in'}/${shortCode}`,
       shortCode: shortCode!,
       analyticsToken: analyticsToken,
-      analyticsUrl: analyticsToken ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://kuruk.am'}/a/${analyticsToken}` : null
+      analyticsUrl: analyticsToken ? `${process.env.NEXT_PUBLIC_SITE_URL || 'https://sceptix.in'}/a/${analyticsToken}` : null
     })
 
   } catch (error) {

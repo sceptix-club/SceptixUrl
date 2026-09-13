@@ -1,8 +1,8 @@
-# kuruk.am - Modern URL Shortener
+# sceptix.in - Modern URL Shortener
 
-![kuruk.am Screenshot](./public/ss_kurukam.png)
+![sceptix.in Screenshot](./public/ss_kurukam.png)
 
-A modern, fast URL shortener forked from ssn.lat (originally built by SSN Lakshya). Transform your long URLs into clean, shareable links with custom aliases and real-time analytics.
+A modern, fast URL shortener for the sceptix club at St Joseph Engineering College. This project was forked from [kuruk.am](https://kuruk.am) and customized with sceptix.in's midnight-and-teal visual identity.
 
 ## ✨ Features
 
@@ -13,7 +13,7 @@ A modern, fast URL shortener forked from ssn.lat (originally built by SSN Lakshy
 - **📱 Responsive Design**: Works perfectly on all devices
 - **⚡ Real-time**: Instant URL shortening with live feedback
 - **🎭 Smooth Animations**: Beautiful Framer Motion transitions
-- **🎨 Modern UI**: Clean interface with Bricolage Grotesque font
+- **🎨 Modern UI**: Clean interface with sceptix.in's midnight canvas, white type, teal accents, and Fira Sans
 
 ## 🛠️ Tech Stack
 
@@ -22,7 +22,7 @@ A modern, fast URL shortener forked from ssn.lat (originally built by SSN Lakshy
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) with custom color system
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Background**: [Paper Design Shaders](https://github.com/paper-design/shaders-react) for animated mesh gradient
-- **Typography**: [Bricolage Grotesque](https://fonts.google.com/specimen/Bricolage+Grotesque)
+- **Typography**: [Fira Sans](https://fonts.google.com/specimen/Fira+Sans)
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Deployment**: Vercel-ready
 
@@ -39,8 +39,8 @@ A modern, fast URL shortener forked from ssn.lat (originally built by SSN Lakshy
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/kuruk.am.git
-   cd kuruk.am
+   git clone https://github.com/sceptix-club/sceptix.in.git
+   cd sceptix.in
    ```
 
 2. **Install dependencies**
@@ -75,7 +75,7 @@ A modern, fast URL shortener forked from ssn.lat (originally built by SSN Lakshy
    ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   NEXT_PUBLIC_SITE_URL=https://kuruk.am
+   NEXT_PUBLIC_SITE_URL=https://sceptix.in
    ```
 
 5. **Run the development server**
@@ -93,7 +93,7 @@ A modern, fast URL shortener forked from ssn.lat (originally built by SSN Lakshy
 1. **Input Validation**: User submits a long URL with optional custom alias
 2. **Code Generation**: System generates a unique 6-character short code using Base62 encoding
 3. **Database Storage**: URL mapping is stored in Supabase with metadata
-4. **Response**: Returns shortened URL in format `https://kuruk.am/shortcode`
+4. **Response**: Returns shortened URL in format `https://sceptix.in/shortcode`
 
 ### Redirection Process
 
@@ -105,7 +105,7 @@ A modern, fast URL shortener forked from ssn.lat (originally built by SSN Lakshy
 ### Code Structure
 
 ```
-kuruk.am/
+sceptix.in/
 ├── app/                    # Next.js App Router
 │   ├── [shortCode]/       # Dynamic route for redirects
 │   ├── api/shorten/       # URL shortening API endpoint
@@ -123,7 +123,7 @@ kuruk.am/
 
 ## 🎨 Design Features
 
-- **Animated Background**: Dynamic mesh gradient with green/white/black color scheme
+- **Animated Background**: Dynamic mesh gradient with sceptix teal, white, and midnight color scheme
 - **Theme Awareness**: Automatic theme switching
 - **Micro-interactions**: Hover effects, loading states, and smooth transitions
 - **Responsive**: Mobile-first design approach
@@ -159,7 +159,7 @@ Create a new short URL.
 
 ```json
 {
-  "shortUrl": "https://kuruk.am/mylink",
+  "shortUrl": "https://sceptix.in/mylink",
   "shortCode": "mylink"
 }
 ```
@@ -192,8 +192,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🏫 About
 
-A modern URL shortener forked from ssn.lat, originally created by **SSN Lakshya** (the entrepreneurship club of SSN College of Engineering). This project has been rebranded and customized for broader use.
+A modern URL shortener forked from **kuruk.am** and rebranded for the **sceptix club** at St Joseph Engineering College.
 
 ---
 
-**Credits**: Originally built by SSN Lakshya | Fork maintained at kuruk.am
+**Credits**: Forked from kuruk.am | Rebranded and maintained by sceptix.in

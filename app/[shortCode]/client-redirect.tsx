@@ -28,10 +28,10 @@ export default function ClientRedirect({ url }: ClientRedirectProps) {
           <p className="text-slate-10 text-pretty leading-relaxed">
             Taking you to your destination
           </p>
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#06B051]"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
           <a
             href={url}
-            className="text-[#06B051] hover:text-[#05A049] underline text-sm"
+            className="text-black hover:text-gray-700 underline text-sm"
           >
             Click here if not redirected automatically
           </a>
