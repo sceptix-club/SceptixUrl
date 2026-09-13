@@ -66,4 +66,9 @@ export default async function RootLayout({
 export const metadata = {
   title: "sceptix.in - URL Shortener",
   description: "Clean, shareable links by the sceptix club",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/sceptix-logo.png",
+  },
 }
