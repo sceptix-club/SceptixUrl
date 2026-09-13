@@ -1,6 +1,6 @@
 # sceptix.in - Modern URL Shortener
 
-![sceptix.in Screenshot](./public/ss_kurukam.png)
+![sceptix.in Screenshot](./public/ss_sceptix.png)
 
 A modern, fast URL shortener for the sceptix club at St Joseph Engineering College. This project was forked from [kuruk.am](https://kuruk.am), moved into the independent [`dionjoshualobo/sceptix-url-shortener`](https://github.com/dionjoshualobo/sceptix-url-shortener) repository, and customized with sceptix.in's monochrome visual identity.
 
