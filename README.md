@@ -2,7 +2,7 @@
 
 ![sceptix.in Screenshot](./public/ss_kurukam.png)
 
-A modern, fast URL shortener for the sceptix club at St Joseph Engineering College. This project was forked from [kuruk.am](https://kuruk.am) and customized with sceptix.in's midnight-and-teal visual identity.
+A modern, fast URL shortener for the sceptix club at St Joseph Engineering College. This project was forked from [kuruk.am](https://kuruk.am), moved into the independent [`dionjoshualobo/sceptix-url-shortener`](https://github.com/dionjoshualobo/sceptix-url-shortener) repository, and customized with sceptix.in's monochrome visual identity.
 
 ## ✨ Features
 
@@ -13,13 +13,13 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
 - **📱 Responsive Design**: Works perfectly on all devices
 - **⚡ Real-time**: Instant URL shortening with live feedback
 - **🎭 Smooth Animations**: Beautiful Framer Motion transitions
-- **🎨 Modern UI**: Clean interface with sceptix.in's midnight canvas, white type, teal accents, and Fira Sans
+- **🎨 Modern UI**: Clean black-and-white interface with an animated mesh background and Fira Sans
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Next.js 15](https://nextjs.org/) with App Router
+- **Framework**: [Next.js 16](https://nextjs.org/) with App Router
 - **Database**: [Supabase](https://supabase.com/) PostgreSQL
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) with custom color system
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) with a monochrome color system
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Background**: [Paper Design Shaders](https://github.com/paper-design/shaders-react) for animated mesh gradient
 - **Typography**: [Fira Sans](https://fonts.google.com/specimen/Fira+Sans)
@@ -31,16 +31,16 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
 ### Prerequisites
 
 - Node.js 18+
-- npm or yarn
-- Supabase account
+- npm
+- Docker Desktop (for local Supabase) or a hosted Supabase project
 
 ### Installation
 
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/sceptix-club/sceptix.in.git
-   cd sceptix.in
+   git clone https://github.com/dionjoshualobo/sceptix-url-shortener.git
+   cd sceptix-url-shortener
    ```
 
 2. **Install dependencies**
@@ -49,33 +49,29 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
    npm install
    ```
 
-3. **Set up Supabase**
+3. **Set up local Supabase**
 
-   - Create a new project at [supabase.com](https://supabase.com)
-   - Go to SQL Editor and run this schema:
-
-   ```sql
-   CREATE TABLE urls (
-     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-     long_url TEXT NOT NULL,
-     short_code TEXT NOT NULL UNIQUE,
-     custom_alias TEXT,
-     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-     click_count INTEGER DEFAULT 0
-   );
-
-   CREATE INDEX idx_urls_short_code ON urls(short_code);
+   ```bash
+   supabase start
    ```
+
+   The schema in `supabase/migrations/` is applied automatically. If you are using a hosted Supabase project instead, apply the migration in the Supabase SQL editor.
 
 4. **Environment Setup**
 
-   - Copy `.env.example` to `.env.local`
-   - Fill in your Supabase credentials:
+   Create `.env.local` with your Supabase credentials:
 
    ```env
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   NEXT_PUBLIC_SITE_URL=https://sceptix.in
+   NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54325
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   ```
+
+   To populate local key values after `supabase start`, run:
+
+   ```bash
+   supabase status
    ```
 
 5. **Run the development server**
@@ -93,7 +89,7 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
 1. **Input Validation**: User submits a long URL with optional custom alias
 2. **Code Generation**: System generates a unique 6-character short code using Base62 encoding
 3. **Database Storage**: URL mapping is stored in Supabase with metadata
-4. **Response**: Returns shortened URL in format `https://sceptix.in/shortcode`
+4. **Response**: Returns shortened URL in format `https://url.sceptix.in/shortcode` when deployed with that domain
 
 ### Redirection Process
 
@@ -105,7 +101,7 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
 ### Code Structure
 
 ```
-sceptix.in/
+sceptix-url-shortener/
 ├── app/                    # Next.js App Router
 │   ├── [shortCode]/       # Dynamic route for redirects
 │   ├── api/shorten/       # URL shortening API endpoint
@@ -123,7 +119,7 @@ sceptix.in/
 
 ## 🎨 Design Features
 
-- **Animated Background**: Dynamic mesh gradient with sceptix teal, white, and midnight color scheme
+- **Animated Background**: Dynamic black-and-white mesh gradient
 - **Theme Awareness**: Automatic theme switching
 - **Micro-interactions**: Hover effects, loading states, and smooth transitions
 - **Responsive**: Mobile-first design approach
@@ -137,8 +133,12 @@ Table: urls
 ├── short_code (TEXT, UNIQUE, NOT NULL)
 ├── custom_alias (TEXT, NULLABLE)
 ├── created_at (TIMESTAMP WITH TIME ZONE, DEFAULT NOW())
-└── click_count (INTEGER, DEFAULT 0)
+├── click_count (INTEGER, DEFAULT 0)
+└── analytics_token (TEXT, UNIQUE, NULLABLE)
 ```
+
+The `clicks` table stores detailed click events for analytics, including the short code,
+timestamp, referrer, user agent, and optional IP address.
 
 ## 🔧 API Reference
 
@@ -159,7 +159,7 @@ Create a new short URL.
 
 ```json
 {
-  "shortUrl": "https://sceptix.in/mylink",
+  "shortUrl": "https://url.sceptix.in/mylink",
   "shortCode": "mylink"
 }
 ```
@@ -173,9 +173,11 @@ Create a new short URL.
 
 ### Vercel (Recommended)
 
-1. Connect your GitHub repository to Vercel
+1. Connect `dionjoshualobo/sceptix-url-shortener` to Vercel
 2. Add environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+3. Add `url.sceptix.in` as the project's custom domain
+4. Set `NEXT_PUBLIC_SITE_URL=https://url.sceptix.in`
+5. Deploy automatically on push to the `main` branch
 
 ### Manual Deployment
 
@@ -192,8 +194,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 🏫 About
 
-A modern URL shortener forked from **kuruk.am** and rebranded for the **sceptix club** at St Joseph Engineering College.
+A modern URL shortener forked from **kuruk.am**, then moved to an independent repository and rebranded for the **sceptix club** at St Joseph Engineering College.
 
 ---
 
-**Credits**: Forked from kuruk.am | Rebranded and maintained by sceptix.in
+**Credits**: Forked from [kuruk.am](https://kuruk.am) | Rebranded and maintained by [sceptix.in](https://sceptix.in)
