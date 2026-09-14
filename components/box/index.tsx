@@ -14,7 +14,7 @@ export function WaitlistWrapper({ children }: PropsWithChildren) {
       <div className="flex flex-col items-center gap-4 flex-1 text-center w-full p-8 pb-4">
         <div>
           <div className="flex flex-col items-center gap-2 mx-auto">
-            <div className="rounded-2xl bg-white p-3 shadow-lg dark:bg-black">
+            <div className="p-3">
               <Image
                 src="/sceptix-logo.png"
                 alt="sceptix logo"
