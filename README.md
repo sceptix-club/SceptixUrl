@@ -18,7 +18,7 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
 ## 🛠️ Tech Stack
 
 - **Framework**: [Next.js 16](https://nextjs.org/) with App Router
-- **Database**: [Supabase](https://supabase.com/) PostgreSQL
+- **Database**: PostgreSQL
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) with a monochrome color system
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Background**: [Paper Design Shaders](https://github.com/paper-design/shaders-react) for animated mesh gradient
@@ -32,7 +32,7 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
 
 - Node.js 18+
 - npm
-- Docker Desktop (for local Supabase) or a hosted Supabase project
+- PostgreSQL 14+ (local or hosted)
 
 ### Installation
 
@@ -49,29 +49,18 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
    npm install
    ```
 
-3. **Set up local Supabase**
+3. **Set up PostgreSQL**
 
-   ```bash
-   supabase start
-   ```
-
-   The schema in `supabase/migrations/` is applied automatically. If you are using a hosted Supabase project instead, apply the migration in the Supabase SQL editor.
+   Create a PostgreSQL database, then apply `db/migrations/001_create_url_shortener_schema.sql`
+   using `psql` or your provider's SQL console.
 
 4. **Environment Setup**
 
-   Create `.env.local` with your Supabase credentials:
+   Create `.env.local` with your PostgreSQL connection string:
 
    ```env
-   NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54325
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+   DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:5432/sceptix
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
-   ```
-
-   To populate local key values after `supabase start`, run:
-
-   ```bash
-   supabase status
    ```
 
 5. **Run the development server**
@@ -88,13 +77,13 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
 
 1. **Input Validation**: User submits a long URL with optional custom alias
 2. **Code Generation**: System generates a unique 6-character short code using Base62 encoding
-3. **Database Storage**: URL mapping is stored in Supabase with metadata
+3. **Database Storage**: URL mapping is stored in PostgreSQL with metadata
 4. **Response**: Returns shortened URL in format `https://url.sceptix.in/shortcode` when deployed with that domain
 
 ### Redirection Process
 
 1. **Route Matching**: Next.js dynamic route `[shortCode]` captures the short code
-2. **Database Lookup**: Query Supabase for the corresponding long URL
+2. **Database Lookup**: Query PostgreSQL for the corresponding long URL
 3. **Analytics Update**: Increment click counter for tracking
 4. **Redirect**: Server-side redirect (with client-side fallback) to the original URL
 
@@ -113,7 +102,7 @@ sceptix-url-shortener/
 │   ├── mesh-gradient.tsx # Animated background
 │   └── ui/               # UI components
 ├── lib/
-│   └── supabase.ts       # Supabase client configuration
+│   └── db.ts             # PostgreSQL client and queries
 └── public/               # Static assets
 ```
 
