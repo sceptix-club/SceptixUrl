@@ -27,7 +27,7 @@ export function ContributeButton() {
       href={repoUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 rounded-full px-3 py-2.5 shadow-lg hover:bg-white/20 dark:hover:bg-black/20 transition-all hover:scale-105"
+      className="inline-flex w-fit self-center items-center gap-2 whitespace-nowrap backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 rounded-full px-3 py-2.5 shadow-lg hover:bg-white/20 dark:hover:bg-black/20 transition-all hover:scale-105"
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}

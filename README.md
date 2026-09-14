@@ -198,4 +198,4 @@ A modern URL shortener forked from **kuruk.am**, then moved to an independent re
 
 ---
 
-**Credits**: Forked from [kuruk.am](https://kuruk.am) | Rebranded and maintained by [sceptix.in](https://sceptix.in)
+**Credits**: Forked from [kuruk.am](https://kuruk.am) | Repurposed by [Dion](https://github.com/dionjoshualobo) | Maintained by [sceptix](https://sceptix.in)

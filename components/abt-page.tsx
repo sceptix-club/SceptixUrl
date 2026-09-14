@@ -27,10 +27,16 @@ export default function About() {
 
         {/* Footer */}
         <p className="mt-10 text-sm text-gray-400 text-center">
-          Forked with respect from <span className="text-white font-semibold">kuruk.am</span>
-        </p>
-        <p className="mt-2 text-sm text-gray-400 text-center">
-          Rebranded and maintained by <span className="text-white font-semibold">the sceptix club</span>
+          Forked from <span className="text-white font-semibold">kuruk.am</span> · repurposed by{" "}
+          <a
+            href="https://github.com/dionjoshualobo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white font-semibold hover:underline"
+          >
+            Dion
+          </a>{" "}
+          and maintained by <span className="text-white font-semibold">sceptix</span>
         </p>
       </div>
   );
