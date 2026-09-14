@@ -29,7 +29,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/favicon.png" />
         <Script
           defer
           src="https://cloud.umami.is/script.js"
@@ -67,8 +67,8 @@ export const metadata = {
   title: "sceptix.in - URL Shortener",
   description: "Clean, shareable links by the sceptix club",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
     apple: "/sceptix-logo.png",
   },
 }
