@@ -1,17 +1,26 @@
 import postgres from "postgres"
 
-const databaseUrl = process.env.DATABASE_URL
+let client: ReturnType<typeof postgres> | undefined
 
-if (!databaseUrl) {
-  throw new Error("DATABASE_URL is required")
+function getClient() {
+  if (client) {
+    return client
+  }
+
+  const databaseUrl = process.env.DATABASE_URL
+  if (!databaseUrl) {
+    throw new Error("DATABASE_URL is required")
+  }
+
+  client = postgres(databaseUrl, {
+    connect_timeout: 10,
+    idle_timeout: 20,
+    max: 1,
+    prepare: false,
+  })
+
+  return client
 }
-
-export const sql = postgres(databaseUrl, {
-  connect_timeout: 10,
-  idle_timeout: 20,
-  max: 1,
-  prepare: false,
-})
 
 export type UrlRecord = {
   id: string
@@ -31,7 +40,7 @@ export type ClickRecord = {
 }
 
 export async function findUrlByShortCode(shortCode: string) {
-  const rows = await sql<UrlRecord[]>`
+  const rows = await getClient()<UrlRecord[]>`
     SELECT id, long_url, short_code, custom_alias, created_at,
       click_count, analytics_token
     FROM urls
@@ -43,7 +52,7 @@ export async function findUrlByShortCode(shortCode: string) {
 }
 
 export async function findUrlByAnalyticsToken(analyticsToken: string) {
-  const rows = await sql<UrlRecord[]>`
+  const rows = await getClient()<UrlRecord[]>`
     SELECT id, long_url, short_code, custom_alias, created_at,
       click_count, analytics_token
     FROM urls
@@ -55,7 +64,7 @@ export async function findUrlByAnalyticsToken(analyticsToken: string) {
 }
 
 export async function findShortCode(shortCode: string) {
-  const rows = await sql<{ short_code: string }[]>`
+  const rows = await getClient()<{ short_code: string }[]>`
     SELECT short_code
     FROM urls
     WHERE short_code = ${shortCode}
@@ -71,7 +80,7 @@ export async function insertUrl(input: {
   customAlias: string | null
   analyticsToken: string | null
 }) {
-  const rows = await sql<UrlRecord[]>`
+  const rows = await getClient()<UrlRecord[]>`
     INSERT INTO urls (long_url, short_code, custom_alias, click_count, analytics_token)
     VALUES (
       ${input.longUrl},
@@ -93,7 +102,7 @@ export async function recordClick(input: {
   userAgent: string | null
   ip: string | null
 }) {
-  await sql.begin(async (transaction) => {
+  await getClient().begin(async (transaction) => {
     await transaction`
       INSERT INTO clicks (short_code, referrer, user_agent, ip)
       VALUES (
@@ -113,7 +122,7 @@ export async function recordClick(input: {
 }
 
 export async function findRecentClicks(shortCode: string) {
-  return sql<ClickRecord[]>`
+  return getClient()<ClickRecord[]>`
     SELECT id, created_at, referrer, user_agent
     FROM clicks
     WHERE short_code = ${shortCode}
