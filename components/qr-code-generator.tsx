@@ -5,6 +5,10 @@ import type React from "react"
 import QRCode from "react-qr-code"
 import { useToast } from "@/hooks/use-toast"
 import { Download, Copy, ArrowLeft } from "lucide-react" // Import Copy and ArrowLeft icons
+
+const QR_SIZE = 180
+const EXPORT_SCALE = 3
+
 interface QrCodeGeneratorProps {
   url: string;
   setUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -14,6 +18,10 @@ interface QrCodeGeneratorProps {
 export function QrCodeGenerator({ url, setUrl, isValidHttpUrl }: QrCodeGeneratorProps) {
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState("")
   const [showQrCode, setShowQrCode] = useState(false) // New state to control QR code visibility
+  const [foregroundColor, setForegroundColor] = useState("#000000")
+  const [backgroundColor, setBackgroundColor] = useState("#ffffff")
+  const [padding, setPadding] = useState(16)
+  const [includeLogo, setIncludeLogo] = useState(true)
   const qrCodeRef = useRef<HTMLDivElement>(null)
   const { toast } = useToast()
 
@@ -21,18 +29,54 @@ export function QrCodeGenerator({ url, setUrl, isValidHttpUrl }: QrCodeGenerator
     if (qrCodeRef.current) {
       const svgElement = qrCodeRef.current.querySelector('svg');
       if (svgElement) {
-        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const svgData = new XMLSerializer().serializeToString(svgElement)
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const outputSize = (QR_SIZE + padding * 2) * EXPORT_SCALE
+        canvas.width = outputSize
+        canvas.height = outputSize
+        const ctx = canvas.getContext('2d')
         const img = new Image();
 
         img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx?.drawImage(img, 0, 0);
-          setQrCodeDataUrl(canvas.toDataURL('image/png'));
-        };
-        img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+          if (!ctx) {
+            return
+          }
+
+          ctx.fillStyle = backgroundColor
+          ctx.fillRect(0, 0, outputSize, outputSize)
+          ctx.drawImage(
+            img,
+            padding * EXPORT_SCALE,
+            padding * EXPORT_SCALE,
+            QR_SIZE * EXPORT_SCALE,
+            QR_SIZE * EXPORT_SCALE,
+          )
+
+          if (includeLogo) {
+            const logo = new Image()
+            logo.onload = () => {
+              const logoSize = QR_SIZE * EXPORT_SCALE * 0.22
+              const logoX = (outputSize - logoSize) / 2
+              const logoY = (outputSize - logoSize) / 2
+              const logoPadding = logoSize * 0.12
+
+              ctx.fillStyle = backgroundColor
+              ctx.fillRect(
+                logoX - logoPadding,
+                logoY - logoPadding,
+                logoSize + logoPadding * 2,
+                logoSize + logoPadding * 2,
+              )
+              ctx.drawImage(logo, logoX, logoY, logoSize, logoSize)
+              setQrCodeDataUrl(canvas.toDataURL('image/png'))
+            }
+            logo.src = "/sceptix-logo.png"
+          } else {
+            setQrCodeDataUrl(canvas.toDataURL('image/png'))
+          }
+        }
+        const svgBlob = new Blob([svgData], { type: "image/svg+xml" })
+        img.src = URL.createObjectURL(svgBlob)
       }
     }
   };
@@ -41,7 +85,7 @@ export function QrCodeGenerator({ url, setUrl, isValidHttpUrl }: QrCodeGenerator
     if (url && showQrCode) { // Only generate if URL is present and showQrCode is true
       generateQrCodeImage();
     }
-  }, [url, showQrCode]); // Depend on showQrCode as well
+  }, [url, showQrCode, foregroundColor, backgroundColor, padding, includeLogo]); // Depend on customization options as well
 
   const handleGenerateQrCode = async () => {
     if (!isValidHttpUrl(url)){
@@ -151,8 +195,74 @@ export function QrCodeGenerator({ url, setUrl, isValidHttpUrl }: QrCodeGenerator
       {showQrCode && url && ( // Only show QR code if showQrCode is true and URL is present
         <div className="relative bg-black/10 border border-black/30 rounded-xl p-4 flex flex-col items-center justify-center space-y-3 animate-in fade-in-50 slide-in-from-bottom-4 duration-500">
           <p className="text-xs text-black dark:text-white font-medium mb-1">QR Code for: {url}</p>
-          <div ref={qrCodeRef} className="relative p-2 bg-white rounded-lg group">
-            <QRCode value={url} size={180} />
+          <div className="grid grid-cols-2 gap-3 text-left">
+            <label className="flex items-center justify-between gap-2 rounded-lg border border-black/10 bg-black/5 px-3 py-2 text-xs text-slate-11">
+              QR color
+              <input
+                type="color"
+                value={foregroundColor}
+                onChange={(event) => setForegroundColor(event.target.value)}
+                className="h-7 w-9 cursor-pointer rounded border-0 bg-transparent p-0"
+              />
+            </label>
+            <label className="flex items-center justify-between gap-2 rounded-lg border border-black/10 bg-black/5 px-3 py-2 text-xs text-slate-11">
+              Background
+              <input
+                type="color"
+                value={backgroundColor}
+                onChange={(event) => setBackgroundColor(event.target.value)}
+                className="h-7 w-9 cursor-pointer rounded border-0 bg-transparent p-0"
+              />
+            </label>
+            <label className="col-span-2 space-y-1 rounded-lg border border-black/10 bg-black/5 px-3 py-2 text-xs text-slate-11">
+              <span className="flex justify-between">
+                Padding <span>{padding}px</span>
+              </span>
+              <input
+                type="range"
+                min="0"
+                max="48"
+                step="4"
+                value={padding}
+                onChange={(event) => setPadding(Number(event.target.value))}
+                className="w-full accent-black"
+              />
+            </label>
+            <label className="col-span-2 flex items-center justify-between rounded-lg border border-black/10 bg-black/5 px-3 py-2 text-xs text-slate-11">
+              Add Sceptix logo
+              <input
+                type="checkbox"
+                checked={includeLogo}
+                onChange={(event) => setIncludeLogo(event.target.checked)}
+                className="h-4 w-4 accent-black"
+              />
+            </label>
+          </div>
+          <div
+            ref={qrCodeRef}
+            className="relative rounded-lg group"
+            style={{ backgroundColor, padding }}
+          >
+            <QRCode
+              value={url}
+              size={QR_SIZE}
+              fgColor={foregroundColor}
+              bgColor={backgroundColor}
+              level="H"
+              style={{ display: "block" }}
+            />
+            {includeLogo && (
+              <span
+                className="pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-sm"
+                style={{ backgroundColor, padding: QR_SIZE * 0.22 * 0.12 }}
+              >
+                <img
+                  src="/sceptix-logo.png"
+                  alt=""
+                  className="h-[39.6px] w-[39.6px]"
+                />
+              </span>
+            )}
             <button
               onClick={copyQrCodeToClipboard}
               disabled={!qrCodeDataUrl}
