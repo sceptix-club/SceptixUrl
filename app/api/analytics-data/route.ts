@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { findRecentClicks, findUrlByAnalyticsToken } from '@/lib/db'
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,13 +14,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Find URL by analytics token
-    const { data: urlData, error: urlError } = await supabase
-      .from('urls')
-      .select('id, short_code, long_url, click_count, created_at')
-      .eq('analytics_token', analyticsToken)
-      .single()
+    const urlData = await findUrlByAnalyticsToken(analyticsToken)
 
-    if (urlError || !urlData) {
+    if (!urlData) {
       return NextResponse.json(
         { error: 'Analytics not found' },
         { status: 404 }
@@ -28,23 +24,14 @@ export async function GET(request: NextRequest) {
     }
 
     // Fetch recent clicks (last 100)
-    const { data: clicks, error: clicksError } = await supabase
-      .from('clicks')
-      .select('id, created_at, referrer, user_agent')
-      .eq('short_code', urlData.short_code)
-      .order('created_at', { ascending: false })
-      .limit(100)
-
-    if (clicksError) {
-      console.error('Error fetching clicks:', clicksError)
-    }
+    const clicks = await findRecentClicks(urlData.short_code)
 
     // Calculate clicks per day for last 30 days
     const thirtyDaysAgo = new Date()
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
 
     const clicksByDay: Record<string, number> = {}
-    const recentClicks = (clicks || []).filter(click => {
+    const recentClicks = clicks.filter(click => {
       const clickDate = new Date(click.created_at)
       return clickDate >= thirtyDaysAgo
     })

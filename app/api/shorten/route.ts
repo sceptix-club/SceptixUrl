@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase, supabaseAdmin } from '@/lib/supabase'
+import { findShortCode, insertUrl } from '@/lib/db'
 import { randomBytes } from 'crypto'
 
 function generateShortCode(): string {
@@ -39,11 +39,7 @@ export async function POST(request: NextRequest) {
     let shortCode = customAlias
 
     if (customAlias) {
-      const { data: existingAlias } = await supabase
-        .from('urls')
-        .select('short_code')
-        .eq('short_code', customAlias)
-        .single()
+      const existingAlias = await findShortCode(customAlias)
 
       if (existingAlias) {
         return NextResponse.json(
@@ -55,11 +51,7 @@ export async function POST(request: NextRequest) {
       let isUnique = false
       while (!isUnique) {
         shortCode = generateShortCode()
-        const { data: existingCode } = await supabase
-          .from('urls')
-          .select('short_code')
-          .eq('short_code', shortCode)
-          .single()
+        const existingCode = await findShortCode(shortCode)
 
         if (!existingCode) {
           isUnique = true
@@ -70,27 +62,12 @@ export async function POST(request: NextRequest) {
     // Generate analytics token if enabled
     const analyticsToken = enableAnalytics ? generateAnalyticsToken() : null
 
-    // Use admin client for server-side writes
-    const { data, error } = await supabaseAdmin
-      .from('urls')
-      .insert([
-        {
-          long_url: longUrl,
-          short_code: shortCode!,
-          custom_alias: customAlias || null,
-          click_count: 0,
-          analytics_token: analyticsToken
-        }
-      ])
-      .select()
-
-    if (error) {
-      console.error('Supabase error:', error)
-      return NextResponse.json(
-        { error: 'Failed to create short URL' },
-        { status: 500 }
-      )
-    }
+    await insertUrl({
+      longUrl,
+      shortCode: shortCode!,
+      customAlias: customAlias || null,
+      analyticsToken,
+    })
 
     return NextResponse.json({
       shortUrl: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://sceptix.in'}/${shortCode}`,
