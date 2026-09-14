@@ -11,6 +11,7 @@ A modern, fast URL shortener for the sceptix club at St Joseph Engineering Colle
 - **📊 Click Tracking**: Monitor how many times your links are accessed
 - **🌗 Dark/Light Mode**: Seamless theme switching
 - **📱 Responsive Design**: Works perfectly on all devices
+- **🧩 QR Customization**: Choose QR colors, padding, and an optional Sceptix logo
 - **⚡ Real-time**: Instant URL shortening with live feedback
 - **🎭 Smooth Animations**: Beautiful Framer Motion transitions
 - **🎨 Modern UI**: Clean black-and-white interface with an animated mesh background and Fira Sans
