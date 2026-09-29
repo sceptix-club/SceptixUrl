@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import { notFound } from 'next/navigation'
 import { headers } from 'next/headers'
 
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: { shortCode: string }
 }

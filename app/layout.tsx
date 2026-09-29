@@ -14,9 +14,6 @@ const firaSans = Fira_Sans({
   preload: true,
 })
 
-export const dynamic = "force-static"
-export const revalidate = 30
-
 export const viewport: Viewport = {
   maximumScale: 1,
 }
