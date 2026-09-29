@@ -6,7 +6,7 @@ export default function NotFound() {
       <div className="bg-gray-1/85 rounded-2xl p-8 max-w-md mx-auto">
         <h2 className="text-2xl font-bold text-slate-12 mb-4">URL Not Found</h2>
         <p className="text-slate-10 mb-6">
-          The short URL you're looking for doesn't exist or has expired.
+          The short URL you&rsquo;re looking for doesn&rsquo;t exist or has expired.
         </p>
         <Link
           href="/"

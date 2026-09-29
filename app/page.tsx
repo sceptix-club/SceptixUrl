@@ -71,7 +71,7 @@ export default function Home() {
           transition={{ duration: 0.5 }}
         >
           <p className="text-slate-10 text-pretty leading-relaxed">
-            Share smarter with the sceptix club's fast, focused URL shortener.
+            Share smarter with the sceptix club&rsquo;s fast, focused URL shortener.
           </p>
         </motion.div>
         {/* <motion.div
