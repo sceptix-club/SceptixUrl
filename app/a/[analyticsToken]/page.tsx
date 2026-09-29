@@ -6,6 +6,9 @@ import { ArrowLeft, ExternalLink, Copy } from 'lucide-react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://sceptix.in').replace(/\/$/, '')
+const SITE_LABEL = SITE_URL.replace(/^https?:\/\//, '')
+
 interface AnalyticsData {
   shortCode: string
   longUrl: string
@@ -127,16 +130,16 @@ export default function AnalyticsPage() {
           <p className="text-sm text-black font-medium mb-3">Short URL</p>
           <div className="flex items-center justify-between gap-3 bg-white rounded-lg p-3 border border-black/20">
             <a
-              href={`/${data.shortCode}`}
+              href={`${SITE_URL}/${data.shortCode}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-black hover:text-gray-700 font-medium truncate flex items-center gap-2"
             >
-              sceptix.in/{data.shortCode}
+              {SITE_LABEL}/{data.shortCode}
               <ExternalLink className="w-3 h-3 flex-shrink-0" />
             </a>
             <button
-              onClick={() => copyToClipboard(`https://sceptix.in/${data.shortCode}`)}
+              onClick={() => copyToClipboard(`${SITE_URL}/${data.shortCode}`)}
               className="p-2 hover:bg-black/10 rounded-lg transition-colors text-slate-600 hover:text-slate-900"
               title="Copy short URL"
             >
